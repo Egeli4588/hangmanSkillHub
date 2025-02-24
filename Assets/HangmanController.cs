@@ -1,5 +1,6 @@
 
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,10 @@ public class HangmanController : MonoBehaviour
     [SerializeField] GameObject wordContainer;
     [SerializeField] GameObject[] hangmanStages;
     [SerializeField] TextAsset possibleWords;
+    [SerializeField] public Animator Animator;
+
+
+
 
     private string word;
     private int inCorrectGuesses, correctGuesses;
@@ -36,7 +41,7 @@ public class HangmanController : MonoBehaviour
         foreach (Transform child in wordContainer.transform)
         {
 
-              Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
 
         foreach (GameObject stage in hangmanStages)
@@ -93,6 +98,22 @@ public class HangmanController : MonoBehaviour
 
             inCorrectGuesses++;
             hangmanStages[inCorrectGuesses - 1].SetActive(true);
+
+            if (inCorrectGuesses == 5)
+            {
+                hangmanStages[4].SetActive(true); // StageFive aktif
+                                                  // StageFive altýndaki bacak animatorunu bul
+                Animator righttLegAnimator = hangmanStages[4].transform.Find("sag").GetComponent<Animator>();
+                righttLegAnimator.SetTrigger("swing");
+            }
+            if (inCorrectGuesses == 6)
+            {
+
+                hangmanStages[5].SetActive(true); // StageSix aktif
+                                                  // StageSix altýndaki bacak animatorunu bul
+                Animator leftLegAnimator = hangmanStages[5].transform.Find("sol").GetComponent<Animator>();
+                leftLegAnimator.SetTrigger("swing");
+            }
 
 
         }
